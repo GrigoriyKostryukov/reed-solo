@@ -6,22 +6,7 @@ from models.polinomial import Polinomial
 from models.reed_solomon import ReedSolomon
 field = Field()
 
-reed_solo = ReedSolomon(field, 3, 5)
-
-"""vector = Polinomial([
-    FieldPolinomial(field, [0, 0, 0]),
-    FieldPolinomial(field, [1, 1, 0]),
-]
-)
-v = Polinomial([
-    FieldPolinomial(field, [1, 0, 1]),
-    FieldPolinomial(field, [1, 0, 1]),
-    FieldPolinomial(field, [1, 0, 0]),
-    FieldPolinomial(field, [1, 0, 1])
-]
-)
-
-reed_solo.decode(v)"""
+reed_solo = ReedSolomon(field, j0=3, t=5)
 
 def to_field_poli(field, sequence):
     coeffs = []

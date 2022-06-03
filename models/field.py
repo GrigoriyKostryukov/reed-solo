@@ -2,11 +2,12 @@ from models.field_polinomial import FieldPolinomial
 
 
 class Field:
+    """Создаёт поле Галуа"""
 
-    # 5^3
-    GENERATOR_POLINOMIAL = [2, 3, 0, 1]
-    MODULUS = 5
-    POWER = 3
+    # 5^3 (Change if necessary)
+    GENERATOR_POLINOMIAL = [2, 3, 0, 1] # Порождающий многочлен поля
+    MODULUS = 5 # Размер начального (маленького) поля
+    POWER = 3 # Степень
     
     # 3^2
     #GENERATOR_POLINOMIAL = [2, 2, 1]
@@ -35,9 +36,10 @@ class Field:
                     item_coeffs[j] = (
                         item_coeffs[j] + complimentary[j]) % self.MODULUS
             item = FieldPolinomial(self, item_coeffs)
-            #print(f"aplha^{i} : {item}")
+            print(f"aplha^{i} : {item}")
             self.items.append(item)
 
+    """Находит все многочлены, кратные порождаюшему, для удобства сложения"""
     def generate_polinomial_miltipliers(self):
         polinomial_miltipliers = {}
         polinomial_miltipliers[self.GENERATOR_POLINOMIAL[-1]
@@ -59,5 +61,6 @@ class Field:
         return self.items[(power - 1 + self.MODULUS**self.POWER - 1) % (self.MODULUS**self.POWER - 1)]
 
     def get_complimentary_polinomial(self, coeffs):
+        """Создаёт многочлен, кратный порождающему, чтобы старший коэффициент суммы обнулилися"""
         leadig_coeff = coeffs[self.POWER]
         return self.polinomial_miltipliers[self.MODULUS - leadig_coeff]

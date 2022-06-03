@@ -5,11 +5,14 @@ from models.polinomial import Polinomial
 
 
 class ReedSolomon:
+    """Код Рида-Соломона"""
     def __init__(self, field: Field, j0, t):
         self.field = field
         self.j0 = j0
         self.t = t
         self.generator_polinomial = self.create_generator_polinomial()
+        print("ПОРОЖДАЮЩИЙ МНОГОЧЛЕН КОДА:")
+        print(self.generator_polinomial.coeffs)
 
     def create_generator_polinomial(self):
         pol = [1]
@@ -32,10 +35,11 @@ class ReedSolomon:
 
     def syndromes(self, vector):
         syndromes = []
+        print("СИНДРОМЫ")
         for i in range(self.j0, self.j0 + 2*self.t):
             alpha = self.field.polinomial_by_power(i)
             syndrome = vector.of(self.field, alpha)
-            #print(syndrome.coeffs)
+            print(f"S{i} = {syndrome.coeffs}")
             syndromes.append(syndrome)
         return syndromes
 
@@ -60,7 +64,10 @@ class ReedSolomon:
 
     def locator_polinomial(self, lambdas):
         coeffs = [FieldPolinomial(self.field, [1])] + lambdas
-        return Polinomial(coeffs)
+        print("МНОГОЧЛЕН ЛОКАТОРОВ ОШИБОК:")
+        pol = Polinomial(coeffs)
+        print(pol.coeffs)
+        return pol
 
     def error_indices(self, locator_polinomial: Polinomial):
         indices = []
@@ -93,7 +100,9 @@ class ReedSolomon:
     def decode(self, vector):
         syndromes = self.syndromes(vector)
         matrix = self.M(self.t, syndromes)
+        print("M", matrix, sep='\n')
         inverse = self.invert_matrix(matrix)
+        print("M^(-1)", inverse, sep='\n')
         lambdas = self.lambdas(inverse, syndromes, len(inverse))
         locator = self.locator_polinomial(lambdas)
         coeffs, indices = self.error_indices(locator)

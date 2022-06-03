@@ -2,7 +2,7 @@ from copy import copy
 
 
 class FieldPolinomial:
-    GENERATOR_POLINOMIAL = [2, 3, 0, 1]
+    """Многочлен поля"""
 
     def __init__(self, field, coeffs):
         self.field = field

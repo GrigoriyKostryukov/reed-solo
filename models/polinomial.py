@@ -4,6 +4,7 @@ from models.field_polinomial import FieldPolinomial
 
 
 class Polinomial:
+    """Обычный многочлен (не из большого поля)"""
 
     def __init__(self, coeffs):
         self._coeffs = self.reduce_coeffs(deepcopy(coeffs))
@@ -58,6 +59,7 @@ class Polinomial:
         return coeffs
 
     def of(self, field, argument):
+        """Вычисляет значение многочлена для указанного аргумента"""
         result = FieldPolinomial(field, [0])
         for i in range(len(self.coeffs)):
             result = result + self.coeffs[i]*((argument)**i)
